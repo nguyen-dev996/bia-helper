@@ -173,13 +173,19 @@ export default function LichPage() {
                     <div className="min-w-0">
                       <div className="text-xs uppercase tracking-wide text-slate-400">{it.type || "EVENT"}</div>
                       <h3 className="font-semibold text-white leading-snug">
-                        {it.href ? (
-                          <Link href={it.href} target="_blank" className="hover:underline">
-                            {it.title}
-                          </Link>
-                        ) : (
-                          it.title
-                        )}
+                      {it.href ? (
+  <a
+    href={it.href}
+    target="_blank"
+    rel="noreferrer"
+    className="hover:underline"
+  >
+    {it.title}
+  </a>
+) : (
+  it.title
+)}
+
                       </h3>
                       <div className="text-sm text-slate-300">
                         {formatDateRange(it.startISO, it.endISO, it.when)}
