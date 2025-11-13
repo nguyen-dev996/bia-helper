@@ -10,17 +10,27 @@ export default function KeoListPage() {
   const tabs: { key: Category; label: string }[] = [
     { key: "pool", label: "Pool" },
     { key: "carom", label: "Carom" },
-    { key: "keodo", label: "Kèo Độ" }, // ⬅️ không còn nhóm other
+    { key: "keodo", label: "Kèo Độ" }, // ⬅️ nhóm kèo độ
   ];
 
   const items: Keo[] = useMemo(() => {
     const list = groups[active] || [];
-    // Đảm bảo /ta-la được đưa đúng nhóm keodo và ưu tiên hiển thị đầu danh sách
+
+    // Đảm bảo /ta-la và 99 bi đền được đưa đúng nhóm keodo và ưu tiên đầu danh sách
     if (active === "keodo") {
       const taLa = list.find((k) => k.slug === "ta-la");
-      const others = list.filter((k) => k.slug !== "ta-la");
-      return taLa ? [taLa, ...others] : list;
+      const bia99 = list.find((k) => k.slug === "bia-99-bi-danh-den");
+      const others = list.filter(
+        (k) => k.slug !== "ta-la" && k.slug !== "bia-99-bi-danh-den"
+      );
+
+      const ordered: Keo[] = [];
+      if (taLa) ordered.push(taLa);
+      if (bia99) ordered.push(bia99);
+
+      return [...ordered, ...others];
     }
+
     return list;
   }, [groups, active]);
 
@@ -30,7 +40,9 @@ export default function KeoListPage() {
         <header className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">Danh sách kèo</h1>
-            <p className="text-sm text-slate-400">Chọn thể loại để xem kèo và vào chi tiết.</p>
+            <p className="text-sm text-slate-400">
+              Chọn thể loại để xem kèo và vào chi tiết.
+            </p>
           </div>
           <Link
             href="/"
@@ -63,7 +75,13 @@ export default function KeoListPage() {
           {items.map((k) => (
             <Link
               key={k.slug}
-              href={k.slug === "ta-la" ? "/keo/ta-la" : `/keo/${k.slug}`}
+              href={
+                k.slug === "ta-la"
+                  ? "/keo/ta-la"
+                  : k.slug === "bia-99-bi-danh-den"
+                  ? "/keo/bia-99-bi-danh-den"
+                  : `/keo/${k.slug}`
+              }
               className="block rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
             >
               <div className="flex items-start gap-2">
@@ -75,8 +93,15 @@ export default function KeoListPage() {
                         Tá lả
                       </span>
                     )}
+                    {k.slug === "bia-99-bi-danh-den" && (
+                      <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-sky-400/15 text-sky-200 border border-sky-400/30">
+                        99 bi đền
+                      </span>
+                    )}
                   </h3>
-                  <p className="text-sm text-slate-300 mt-1 line-clamp-3">{k.summary}</p>
+                  <p className="text-sm text-slate-300 mt-1 line-clamp-3">
+                    {k.summary}
+                  </p>
                 </div>
               </div>
               {k.notes?.length ? (
@@ -99,17 +124,30 @@ export default function KeoListPage() {
         {/* Quick links */}
         <div className="mt-6 flex flex-wrap gap-2 text-sm">
           <span className="opacity-60">Lối tắt:</span>
-          <Link href="/keo/ta-la" className="underline decoration-dotted hover:text-white">
+          <Link
+            href="/keo/ta-la"
+            className="underline decoration-dotted hover:text-white"
+          >
             Tá lả
           </Link>
           <span className="opacity-40">•</span>
-          <Link href="/faq" className="underline decoration-dotted hover:text-white">
+          <Link
+            href="/keo/bia-99-bi-danh-den"
+            className="underline decoration-dotted hover:text-white"
+          >
+            99 bi đền
+          </Link>
+          <span className="opacity-40">•</span>
+          <Link
+            href="/faq"
+            className="underline decoration-dotted hover:text-white"
+          >
             FAQ
           </Link>
         </div>
 
         <footer className="text-xs text-slate-400 mt-6">
-          © 2025 • Bi‑a Helper — Educational only.
+          © 2025 • Bi-a Helper — Educational only.
         </footer>
       </div>
     </main>
