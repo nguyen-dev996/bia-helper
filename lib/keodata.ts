@@ -179,47 +179,138 @@ export const KEOS: Keo[] = [
       },
     ],
   },
+
+  // ⭐ NEW: 99 bi đền (kèo độ) ⭐
+  {
+    slug: "99-bi-den",
+    flow: "per-rack",
+    name: "99 bi đền",
+    category: "keodo",
+    summary:
+      "Kèo 99 bi đền: mỗi lỗi bị trừ/đền bi; ai chạm mốc đền (ví dụ 99 bi) thì thua nặng nhất. Có thể áp dụng cho 8-ball/9-ball tuỳ bàn.",
+    notes: [
+      "Cấu hình tiền/1 bi đền (VD: 1k/bi, 2k/bi...).",
+      "Có thể chọn mốc đền khác (ví dụ 50, 99, 199 tuỳ độ 'thơm').",
+      "Flow UI: ghi số bi đền của từng người sau mỗi ván / mỗi lượt, cuối buổi tính tổng tiền.",
+    ],
+    maxPlayers: 5,
+    fields: [
+      {
+        key: "players",
+        label: "Danh sách người chơi",
+        type: "text",
+        placeholder: "Nhập tối đa 5 tên, cách nhau bằng dấu phẩy",
+      },
+      {
+        key: "unit",
+        label: "Tiền / 1 bi đền",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 1000",
+      },
+      {
+        key: "maxFine",
+        label: "Mốc bi đền (tuỳ chọn)",
+        type: "number",
+        min: 1,
+        placeholder: "VD: 99 (0 = không giới hạn)",
+      },
+    ],
+  },
+
   // ---- Kèo Độ (keodo) bổ sung ---- //
-{
-  slug: "keodo-gac-co",
-  name: "Độ theo gác cơ (thắng giữ cơ)",
-  category: "keodo",
-  summary:
-    "Ai thắng giữ cơ đánh tiếp; thua phải nhường cơ. Tiền thắng tăng theo chuỗi thắng liên tiếp (ví dụ +10k theo cấp số).",
-  notes: [
-    "Mỗi ván lưu người thắng; hệ thống tự tính chuỗi thắng (streak).",
-    "Tiền một ván = baseStake nếu streak=1; nếu chọn 'cấp số cộng' → baseStake + (streak-1)*step; nếu 'cấp số nhân' → baseStake * (multiplier)^(streak-1).",
-    "Chuỗi thắng reset khi người đó thua.",
-  ],
-  flow: "per-rack",
-  maxPlayers: 5,
-  fields: [
-    { key: "baseStake", label: "Tiền nền (VND/ván)", type: "number", min: 0, placeholder: "VD: 10000" },
-    { key: "progression", label: "Kiểu tăng tiền", type: "select", options: ["cấp số cộng", "cấp số nhân"] },
-    { key: "step", label: "Bước tăng (+VND/ván) (nếu cộng)", type: "number", min: 0, placeholder: "VD: 10000" },
-    { key: "multiplier", label: "Hệ số nhân (nếu nhân)", type: "number", min: 1, placeholder: "VD: 2" },
-    { key: "streakCap", label: "Giới hạn chuỗi (tuỳ chọn)", type: "number", min: 0, placeholder: "0 = không giới hạn" },
-  ],
-},
-{
-  slug: "keodo-time",
-  name: "Độ theo thời gian (công tơ/giờ chơi)",
-  category: "keodo",
-  summary:
-    "Dành cho nhóm chơi lâu: chia đều chi phí giờ bàn, cuối buổi cộng/trừ độ theo kết quả tổng.",
-  notes: [
-    "Nhập tổng thời gian, đơn giá/giờ; hệ thống chia đều 'phí bàn' cho mỗi người.",
-    "Trong buổi có thể vẫn ghi per-rack người thắng để tính độ; cuối buổi = (độ thắng/thua) ± phần phí bàn.",
-  ],
-  flow: "per-rack",
-  maxPlayers: 5,
-  fields: [
-    { key: "hourlyRate", label: "Đơn giá giờ bàn (VND/giờ)", type: "number", min: 0, placeholder: "VD: 120000" },
-    { key: "durationMin", label: "Thời lượng buổi (phút)", type: "number", min: 0, placeholder: "VD: 90" },
-    { key: "split", label: "Cách chia phí bàn", type: "select", options: ["chia đều"] },
-    { key: "stake", label: "Stake giả lập per-rack (tuỳ chọn)", type: "number", min: 0, placeholder: "VD: 5000" },
-  ],
-},
+  {
+    slug: "keodo-gac-co",
+    name: "Độ theo gác cơ (thắng giữ cơ)",
+    category: "keodo",
+    summary:
+      "Ai thắng giữ cơ đánh tiếp; thua phải nhường cơ. Tiền thắng tăng theo chuỗi thắng liên tiếp (ví dụ +10k theo cấp số).",
+    notes: [
+      "Mỗi ván lưu người thắng; hệ thống tự tính chuỗi thắng (streak).",
+      "Tiền một ván = baseStake nếu streak=1; nếu chọn 'cấp số cộng' → baseStake + (streak-1)*step; nếu 'cấp số nhân' → baseStake * (multiplier)^(streak-1).",
+      "Chuỗi thắng reset khi người đó thua.",
+    ],
+    flow: "per-rack",
+    maxPlayers: 5,
+    fields: [
+      {
+        key: "baseStake",
+        label: "Tiền nền (VND/ván)",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 10000",
+      },
+      {
+        key: "progression",
+        label: "Kiểu tăng tiền",
+        type: "select",
+        options: ["cấp số cộng", "cấp số nhân"],
+      },
+      {
+        key: "step",
+        label: "Bước tăng (+VND/ván) (nếu cộng)",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 10000",
+      },
+      {
+        key: "multiplier",
+        label: "Hệ số nhân (nếu nhân)",
+        type: "number",
+        min: 1,
+        placeholder: "VD: 2",
+      },
+      {
+        key: "streakCap",
+        label: "Giới hạn chuỗi (tuỳ chọn)",
+        type: "number",
+        min: 0,
+        placeholder: "0 = không giới hạn",
+      },
+    ],
+  },
+  {
+    slug: "keodo-time",
+    name: "Độ theo thời gian (công tơ/giờ chơi)",
+    category: "keodo",
+    summary:
+      "Dành cho nhóm chơi lâu: chia đều chi phí giờ bàn, cuối buổi cộng/trừ độ theo kết quả tổng.",
+    notes: [
+      "Nhập tổng thời gian, đơn giá/giờ; hệ thống chia đều 'phí bàn' cho mỗi người.",
+      "Trong buổi có thể vẫn ghi per-rack người thắng để tính độ; cuối buổi = (độ thắng/thua) ± phần phí bàn.",
+    ],
+    flow: "per-rack",
+    maxPlayers: 5,
+    fields: [
+      {
+        key: "hourlyRate",
+        label: "Đơn giá giờ bàn (VND/giờ)",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 120000",
+      },
+      {
+        key: "durationMin",
+        label: "Thời lượng buổi (phút)",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 90",
+      },
+      {
+        key: "split",
+        label: "Cách chia phí bàn",
+        type: "select",
+        options: ["chia đều"],
+      },
+      {
+        key: "stake",
+        label: "Stake giả lập per-rack (tuỳ chọn)",
+        type: "number",
+        min: 0,
+        placeholder: "VD: 5000",
+      },
+    ],
+  },
 ];
 
 export function getKeoBySlug(slug: string) {

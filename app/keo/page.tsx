@@ -10,7 +10,7 @@ export default function KeoListPage() {
   const tabs: { key: Category; label: string }[] = [
     { key: "pool", label: "Pool" },
     { key: "carom", label: "Carom" },
-    { key: "keodo", label: "Kèo Độ" }, // ⬅️ nhóm kèo độ
+    { key: "keodo", label: "Kèo Độ" },
   ];
 
   const items: Keo[] = useMemo(() => {
@@ -19,14 +19,14 @@ export default function KeoListPage() {
     // Đảm bảo /ta-la và 99 bi đền được đưa đúng nhóm keodo và ưu tiên đầu danh sách
     if (active === "keodo") {
       const taLa = list.find((k) => k.slug === "ta-la");
-      const bia99 = list.find((k) => k.slug === "bia-99-bi-danh-den");
+      const keo99 = list.find((k) => k.slug === "99-bi-den"); // ⬅️ dùng slug chuẩn
       const others = list.filter(
-        (k) => k.slug !== "ta-la" && k.slug !== "bia-99-bi-danh-den"
+        (k) => !["ta-la", "99-bi-den"].includes(k.slug)
       );
 
       const ordered: Keo[] = [];
       if (taLa) ordered.push(taLa);
-      if (bia99) ordered.push(bia99);
+      if (keo99) ordered.push(keo99);
 
       return [...ordered, ...others];
     }
@@ -78,9 +78,7 @@ export default function KeoListPage() {
               href={
                 k.slug === "ta-la"
                   ? "/keo/ta-la"
-                  : k.slug === "bia-99-bi-danh-den"
-                  ? "/keo/99-bi-den"
-                  : `/keo/${k.slug}`
+                  : `/keo/${k.slug}` // ⬅️ 99 bi đền -> /keo/99-bi-den
               }
               className="block rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
             >
