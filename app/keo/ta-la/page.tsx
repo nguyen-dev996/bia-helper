@@ -203,9 +203,21 @@ export default function TaLaPage() {
     return net;
   };
 
+  const scrollToSummary = () => {
+    const el = document.getElementById("summary");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100">
-      <div className="mx-auto max-w-5xl p-3 sm:p-4">
+      <div
+        className={[
+          "mx-auto max-w-5xl px-3 sm:px-4 pt-3 sm:pt-4",
+          step === 3 ? "pb-24 sm:pb-28" : "pb-4",
+        ].join(" ")}
+      >
         <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
@@ -526,9 +538,7 @@ export default function TaLaPage() {
                                     setCurrentInputsMatrix((prev) => {
                                       const next = prev.map((r) => [...r]);
                                       next[i][j] =
-                                        v === ""
-                                          ? ""
-                                          : Math.max(0, Number(v));
+                                        v === "" ? "" : Math.max(0, Number(v));
                                       return next;
                                     });
                                   }}
@@ -626,10 +636,7 @@ export default function TaLaPage() {
                                   Trả ↓ / Nhận →
                                 </th>
                                 {players.map((p) => (
-                                  <th
-                                    key={p}
-                                    className="px-2 py-1 text-left"
-                                  >
+                                  <th key={p} className="px-2 py-1 text-left">
                                     {p}
                                   </th>
                                 ))}
@@ -637,10 +644,7 @@ export default function TaLaPage() {
                             </thead>
                             <tbody>
                               {players.map((row, i) => (
-                                <tr
-                                  key={row}
-                                  className="hover:bg-white/5"
-                                >
+                                <tr key={row} className="hover:bg-white/5">
                                   <td className="px-2 py-1 text-slate-300">
                                     {row}
                                   </td>
@@ -677,7 +681,10 @@ export default function TaLaPage() {
             </div>
 
             {/* Tổng kết tiền */}
-            <div className="rounded-xl border border-white/10 bg-slate-800/40 p-3">
+            <div
+              id="summary"
+              className="rounded-xl border border-white/10 bg-slate-800/40 p-3"
+            >
               <h3 className="font-semibold mb-2 text-sm sm:text-base">
                 Tổng kết
               </h3>
@@ -722,6 +729,34 @@ export default function TaLaPage() {
           </section>
         )}
       </div>
+
+      {/* Bottom bar cố định Step 3 */}
+      {step === 3 && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-900/95 backdrop-blur px-3 sm:px-4 py-2">
+          <div className="mx-auto max-w-5xl flex items-center gap-2">
+            <div className="hidden sm:flex flex-col text-xs text-slate-300 mr-2">
+              <span className="font-semibold">Thanh công cụ</span>
+              <span>
+                Đang có {rounds.length} ván •{" "}
+                {typeof unit === "number" ? `${unit.toLocaleString()} đ / lá` : "chưa nhập tiền / lá"}
+              </span>
+            </div>
+
+            <button
+              onClick={addRound}
+              className="flex-1 sm:flex-none sm:w-40 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-white text-slate-900 hover:opacity-90"
+            >
+              Thêm ván
+            </button>
+            <button
+              onClick={scrollToSummary}
+              className="flex-1 sm:flex-none sm:w-40 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-cyan-500 text-slate-900 hover:opacity-95"
+            >
+              Xem tổng kết
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
