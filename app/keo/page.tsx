@@ -79,7 +79,7 @@ export default function KeoListPage() {
                 k.slug === "ta-la"
                   ? "/keo/ta-la"
                   : k.slug === "bia-99-bi-danh-den"
-                  ? "/keo/bia-99-bi-danh-den"
+                  ? "/keo/99-bi-den"
                   : `/keo/${k.slug}`
               }
               className="block rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
@@ -93,7 +93,7 @@ export default function KeoListPage() {
                         Tá lả
                       </span>
                     )}
-                    {k.slug === "bia-99-bi-danh-den" && (
+                    {k.slug === "99-bi-den" && (
                       <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-sky-400/15 text-sky-200 border border-sky-400/30">
                         99 bi đền
                       </span>
@@ -132,7 +132,7 @@ export default function KeoListPage() {
           </Link>
           <span className="opacity-40">•</span>
           <Link
-            href="/keo/bia-99-bi-danh-den"
+            href="/keo/99-bi-den"
             className="underline decoration-dotted hover:text-white"
           >
             99 bi đền
