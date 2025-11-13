@@ -180,7 +180,7 @@ export default function LichPage() {
     rel="noreferrer"
     className="hover:underline"
   >
-    {it.title}
+    {it.title}  
   </a>
 ) : (
   it.title
